@@ -887,8 +887,11 @@ namespace Valve.VR.InteractionSystem
 
 			if ( teleportingToMarker.ShouldMovePlayer() )
 			{
+                Debug.Log(player.trackingOriginTransform.position);
 				Vector3 playerFeetOffset = player.trackingOriginTransform.position - player.feetPositionGuess;
 				player.trackingOriginTransform.position = teleportPosition + playerFeetOffset;
+                Debug.Log("Teleporting Successful!");
+                Debug.Log(player.trackingOriginTransform.position);
 			}
 			else
 			{

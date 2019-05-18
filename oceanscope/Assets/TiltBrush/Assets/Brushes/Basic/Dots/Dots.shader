@@ -43,7 +43,7 @@ Category {
       #include "UnityCG.cginc"
       #include "../../../Shaders/Include/Brush.cginc"
       #include "../../../Shaders/Include/Particles.cginc"
-      #include "Assets/ThirdParty/Noise/Shaders/Noise.cginc"
+      #include "../../../../../ThirdParty/Noise/Shaders/Noise.cginc"
 
       sampler2D _MainTex;
       fixed4 _TintColor;
@@ -71,11 +71,9 @@ Category {
         float4 center = float4(v.center.xyz, 1);
         float4 corner = OrientParticle(center.xyz, halfSize, v.vid, rotation);
         float waveform = 0;
-        // TODO: displacement should happen before orientation
 #ifdef AUDIO_REACTIVE
         float4 dispVec = float4(0,0,0,0);
         float4 corner_WS = mul(unity_ObjectToWorld, corner);
-        // TODO(pld): worldspace is almost certainly incorrect: use scene or object?
         waveform = tex2Dlod(_FFTTex, float4(fmod(corner_WS.x * _WaveformFreq + _BeatOutputAccum.z*.5,1),0,0,0) ).b * .25;
         dispVec.xyz += waveform * _WaveformIntensity.xyz;
         corner = corner + dispVec;

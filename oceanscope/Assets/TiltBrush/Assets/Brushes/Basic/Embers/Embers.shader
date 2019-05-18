@@ -44,7 +44,7 @@ Category {
       #include "UnityCG.cginc"
       #include "../../../Shaders/Include/Brush.cginc"
       #include "../../../Shaders/Include/Particles.cginc"
-      #include "Assets/ThirdParty/Noise/Shaders/Noise.cginc"
+      #include "../../../../../ThirdParty/Noise/Shaders/Noise.cginc"
 
       sampler2D _MainTex;
       fixed4 _TintColor;
@@ -125,7 +125,6 @@ Category {
         float4 corner_WS = OrientParticle_WS(center_WS.xyz, halfSize, v.vid, rotation);
         o.vertex = mul(UNITY_MATRIX_VP, corner_WS);
 #else
-        // TODO(pld): convince drew to use this version
         // Displacement is in canvas space
         // Note that we assume object space == canvas space (which it is, for TB)
         center = center + float4(disp.xyz, 0);

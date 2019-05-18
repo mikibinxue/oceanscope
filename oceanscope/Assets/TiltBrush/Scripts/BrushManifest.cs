@@ -42,11 +42,13 @@ public class BrushManifest : ScriptableObject {
   // instance API
 
   // See Instance.get for an explanation of this
+  #pragma warning disable 0649  // Don't warn about fields that are never assigned to.
   [HideInInspector]
   [SerializeField]
   private BrushManifest m_DefaultManifest;
 
   [SerializeField] private BrushDescriptor[] m_Brushes;
+  #pragma warning restore 0649
   private Dictionary<Guid, BrushDescriptor> m_ByGuid;
   private ILookup<string, BrushDescriptor> m_ByName;
 
@@ -72,7 +74,7 @@ public class BrushManifest : ScriptableObject {
     }
   }
 
-#if true
+#if false
 #if UNITY_EDITOR
   [UnityEditor.MenuItem("Tilt Brush/Update Manifest")]
   public static void MenuItem_UpdateManifest() {
@@ -80,6 +82,8 @@ public class BrushManifest : ScriptableObject {
     manifest.m_Brushes = UnityEditor.AssetDatabase.FindAssets("t:BrushDescriptor")
         .Select(g => UnityEditor.AssetDatabase.GUIDToAssetPath(g))
         .Select(p => UnityEditor.AssetDatabase.LoadAssetAtPath<BrushDescriptor>(p))
+        .OrderBy(p => p.m_DurableName)
+        .ThenBy(p => p.m_Guid.ToString())
         .ToArray();
     UnityEditor.EditorUtility.SetDirty(manifest);
   }

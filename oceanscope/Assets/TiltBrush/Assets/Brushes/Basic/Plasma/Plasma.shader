@@ -92,7 +92,6 @@ Category {
 
       fixed4 frag (v2f i) : COLOR
       {
-        // Workaround for b/30500118, caused by b/30504121
         i.color.a = saturate(i.color.a);
 
         // Tuning constants for 3 lines
